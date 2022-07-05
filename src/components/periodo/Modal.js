@@ -11,7 +11,8 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  /* width: 400, */
+  minWidth:320,
   bgcolor: 'background.paper',
   /* border: '1px solid #000', */
   borderRadius: 2,
@@ -19,7 +20,7 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal() {
+export default function BasicModal({reset}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -43,7 +44,7 @@ export default function BasicModal() {
        {/*    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
           </Typography> */}
-          <FormularioPeriodo />
+          <FormularioPeriodo reset={reset} onClose={handleClose}/>
           <Button sx={{mt:2}} onClick={handleClose} color="error" fullWidth size='large' variant='outlined'>Cancelar</Button>
         </Box>
       </Modal>

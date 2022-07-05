@@ -7,6 +7,7 @@ import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormContr
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
+import { getMeAPI, loginAPI } from '../../../api/usuarioAPI';
 
 // ----------------------------------------------------------------------
 
@@ -16,19 +17,22 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    email: Yup.string().email('El correo electrónico no cumple el formato').required('Email es requerido'),
+    password: Yup.string().required('Password es requerido'),
   });
 
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
-      remember: true,
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit:async () => {
+      /* navigate('/dashboard', { replace: true }); */
+      const result= await loginAPI(values);
+      console.log(result.tokenAcceso);
+      const user=await getMeAPI(result.tokenAcceso);
+      console.log(user)
     },
   });
 
@@ -73,10 +77,6 @@ export default function LoginForm() {
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          <FormControlLabel
-            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
-            label="Remember me"
-          />
 
           <Link component={RouterLink} variant="subtitle2" to="#" underline="hover">
             Forgot password?

@@ -1,12 +1,11 @@
 import { filter } from 'lodash';
 import { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+
 // material
 import {
   Card,
   Table,
   Stack,
-  Button,
   TableRow,
   TableBody,
   TableCell,
@@ -16,11 +15,12 @@ import {
   TablePagination,
 } from '@mui/material';
 // components
+
+import { Toaster, toast } from 'react-hot-toast';
 import BasicModal from '../components/periodo/Modal';
-import { getPeriodosAPI } from '../api/periodoAcademico';
+import { eliminarPeriodo, getPeriodosAPI } from '../api/periodoAcademicoAPI';
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 
@@ -84,17 +84,33 @@ export default function Periodo() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   /* --------------------------------------- */
   const [data, setData] = useState([]);
-  
-    useEffect(() => {
-      search();
-    }, []);
-  
-  
-    const search = async () => {
-      const result = await getPeriodosAPI();
-      setData(result);
-    } 
-    /* ---------------------------------------- */
+
+  useEffect(() => {
+    search();
+  }, []);
+
+
+  const search = async () => {
+    const result = await getPeriodosAPI();
+    setData(result);
+  }
+
+  const delPeriodo =async (id) => {
+
+    try{
+      const result=await eliminarPeriodo(id);
+      
+      if(result){
+        toast.success(`Periodo ${id} eliminado`);
+        search();
+      }
+    }catch(error){
+      toast.error("No se pudo eliminar el periodo");
+    }
+    
+
+  }
+  /* ---------------------------------------- */
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -133,6 +149,7 @@ export default function Periodo() {
 
   return (
     <Page title="Periodos">
+      {/* <Toaster /> */}
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -141,7 +158,7 @@ export default function Periodo() {
           {/* <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
             Nuevo
           </Button> */}
-          <BasicModal/>
+          <BasicModal reset={search} />
         </Stack>
 
         <Card>
@@ -161,7 +178,7 @@ export default function Periodo() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, anio, fechaInicio, fechaFin, descripcionPeriodo} = row;
+                    const { id, anio, fechaInicio, fechaFin, descripcionPeriodo } = row;
                     const isItemSelected = selected.indexOf(descripcionPeriodo) !== -1;
 
                     return (
@@ -181,7 +198,11 @@ export default function Periodo() {
                         <TableCell align="left">{fechaFin}</TableCell>
                         <TableCell align="left">{descripcionPeriodo}</TableCell>
                         <TableCell align="left">
-                          <UserMoreMenu />
+                          <UserMoreMenu
+                            title={"periodo académico"}
+                            body={`¿Está seguro que quiere eliminar el periodo "${descripcionPeriodo}"?. Le recordamos que esta acción no se puede deshacer`}
+                            onDelAction={() => delPeriodo(id)}
+                          />
                         </TableCell>
                       </TableRow>
                     );

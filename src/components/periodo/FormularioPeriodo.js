@@ -4,9 +4,12 @@ import * as Yup from 'yup';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LoadingButton } from "@mui/lab";
+import { toast } from "react-hot-toast";
+import 'react-toastify/dist/ReactToastify.css';
+import { guardarPerido } from "../../api/periodoAcademicoAPI";
 
 
-export default function FormularioPeriodo() {
+export default function FormularioPeriodo({ reset, onClose }) {
 
     const LoginSchema = Yup.object().shape({
         anio: Yup
@@ -37,13 +40,22 @@ export default function FormularioPeriodo() {
             descripcionPeriodo: ''
         },
         validationSchema: LoginSchema,
-        onSubmit: (values, { setSubmitting }) => {
+        onSubmit: async (values, { setSubmitting }) => {
+            try {
+                const response = await guardarPerido(values);
+                console.log(response);
+                if (response) {
+                    toast.success("Guardado");
+                    reset();
+                    onClose();
+                    setSubmitting(false);
+                }
 
-            setTimeout(console.log(values), 3000);
-            setSubmitting(false)
+            } catch (error) {
+                console.error(error)
+            }
         },
     });
-
 
 
     const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -63,29 +75,18 @@ export default function FormularioPeriodo() {
                     />
 
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <Stack spacing={2} direction={{ xs: 'colum', sm: 'row' }}>
-                            {/* <DatePicker
-                                inputFormat="yyyy-MM-dd"
-                                mask="____-__-__"
-                                label="Fecha de Inicio"
-                                value={formik.values.fechaInicio}
-                                {...getFieldProps('fechaInicio')}
-                                error={Boolean(touched.fechaInicio && errors.fechaInicio)}
-                                helperText={touched.fechaInicio && errors.fechaInicio}
-                                onChange={(newValue) => {
-                                    formik.setFieldValue("fechaInicio", newValue);
-                                }}
-                                renderInput={(params) => <TextField {...params} />}
-                            /> */}
+                        <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }}>
                             <DatePicker
-                                inputFormat="yyyy-MM-dd"
-                                mask="____-__-__"
+                                inputFormat="yyyy/MM/dd"
+                                mask="____/__/__"
                                 label="Fecha de Inicio"
+
                                 {...getFieldProps('fechaInicio')}
                                 value={formik.values.fechaInicio}
 
                                 onChange={(newValue) => {
                                     formik.setFieldValue("fechaInicio", newValue);
+
                                 }}
 
                                 renderInput={(params) => <TextField
@@ -95,8 +96,8 @@ export default function FormularioPeriodo() {
                                 />}
                             />
                             <DatePicker
-                                inputFormat="yyyy-MM-dd"
-                                mask="____-__-__"
+                                inputFormat="yyyy/MM/dd"
+                                mask="____/__/__"
                                 label="Fecha de Fin"
                                 minDate={formik.values.fechaInicio}
                                 {...getFieldProps('fechaInicio')}
@@ -104,11 +105,11 @@ export default function FormularioPeriodo() {
                                 onChange={(newValue) => {
                                     formik.setFieldValue("fechaFin", newValue);
                                 }}
-                                renderInput={(params) => <TextField 
-                                    {...params} 
+                                renderInput={(params) => <TextField
+                                    {...params}
                                     error={Boolean(touched.fechaFin && errors.fechaFin)}
                                     helperText={touched.fechaFin && errors.fechaFin}
-                                    />}
+                                />}
                             />
                         </Stack>
                     </LocalizationProvider>

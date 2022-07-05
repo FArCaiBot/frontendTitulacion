@@ -4,12 +4,19 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
+import ResponsiveDialog from '../../../components/Alert';
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu() {
+export default function UserMoreMenu({
+  title,
+  body, 
+  onDelAction
+}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  const [delOpen, setDelOpen] = useState(false);
 
   return (
     <>
@@ -27,12 +34,19 @@ export default function UserMoreMenu() {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={() => setDelOpen(true)}>
+          <ListItemIcon >
             <Iconify icon="eva:trash-2-outline" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Eliminar" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
+        <ResponsiveDialog
+          isOpen={delOpen}
+          title={title}
+          onClose={()=>setDelOpen(false)}
+          body={body}
+          onClickAction={()=>{onDelAction(); setDelOpen(false)}}
+        />
 
         <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
           <ListItemIcon>

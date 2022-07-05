@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 //
+import { Toaster } from 'react-hot-toast';
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
 
@@ -36,10 +37,12 @@ export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
 
   return (
+
     <RootStyle>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
       <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       <MainStyle>
+        <Toaster />
         <Outlet />
       </MainStyle>
     </RootStyle>
