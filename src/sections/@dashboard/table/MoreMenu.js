@@ -1,17 +1,24 @@
 import { useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
+import PropTypes from 'prop-types';
 import Iconify from '../../../components/Iconify';
 import ResponsiveDialog from '../../../components/Alert';
 
 // ----------------------------------------------------------------------
+UserMoreMenu.propTypes={
+  title: PropTypes.string,
+  body: PropTypes.string,
+  onDelAction: PropTypes.func,
+  children:PropTypes.node,
+}
 
 export default function UserMoreMenu({
   title,
   body, 
-  onDelAction
+  onDelAction,
+  children
 }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -47,13 +54,7 @@ export default function UserMoreMenu({
           body={body}
           onClickAction={()=>{onDelAction(); setDelOpen(false)}}
         />
-
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Iconify icon="eva:edit-fill" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        {children}
       </Menu>
     </>
   );

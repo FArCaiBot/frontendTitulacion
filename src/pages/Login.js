@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate, useNavigate } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Card, Link, Container, Typography } from '@mui/material';
@@ -9,7 +9,7 @@ import Page from '../components/Page';
 import Logo from '../components/Logo';
 // sections
 import { LoginForm } from '../sections/auth/login';
-
+import { useAuth } from '../hooks';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
@@ -58,7 +58,12 @@ const ContentStyle = styled('div')(({ theme }) => ({
 export default function Login() {
   const smUp = useResponsive('up', 'sm');
 
-  const mdUp = useResponsive('up', 'md');
+  const mdUp = useResponsive('up', 'md');  
+
+  const {auth}=useAuth();
+
+  if(auth) return <Navigate to={"/home"} replace/>
+  
 
   return (
     <Page title="Login">

@@ -1,48 +1,34 @@
 import { Stack, TextField } from "@mui/material";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from 'yup';
+import PropTypes from 'prop-types'
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { es } from 'date-fns/locale'
 import { LoadingButton } from "@mui/lab";
 import { toast } from "react-hot-toast";
 import 'react-toastify/dist/ReactToastify.css';
-import { guardarPerido } from "../../api/periodoAcademicoAPI";
+import { guardarPerido } from "../../../api/periodoAcademicoAPI";
+import { periodInitialValues, periodValidationSchema } from '../../../utils/formValidation'
+import { useAuth } from '../../../hooks'
+import Loader from "../../Loader/Loader";
 
+FormularioPeriodo.propTypes = {
+    reset: PropTypes.func,
+    onClose: PropTypes.func
+}
 
-export default function FormularioPeriodo({ reset, onClose }) {
+export default function FormularioPeriodo({ reset, onClose, }) {
 
-    const LoginSchema = Yup.object().shape({
-        anio: Yup
-            .number()
-            .required("El campo es obligatorio")
-            .positive("El año debe ser un número positivo")
-            .max(new Date().getFullYear() + 1, "El año no puede ser mayor al año actual + 1"),
-        fechaInicio: Yup
-            .date()
-            .nullable("El campo no puede estar vacio")
-            .required("El campo es obligatorio"),
-        fechaFin: Yup
-            .date()
-            .nullable()
-            .required("El campo es obligatorio"),
-        descripcionPeriodo: Yup
-            .string()
-            .required("El campo es obligatorio")
-            .min(10, "El campo debe tener entre 10 y 60 caracteres")
-            .max(60, "El campo debe tener entre 10 y 60 caracteres")
-    });
+    const { auth } = useAuth();
+
 
     const formik = useFormik({
-        initialValues: {
-            anio: '',
-            fechaInicio: null,
-            fechaFin: null,
-            descripcionPeriodo: ''
-        },
-        validationSchema: LoginSchema,
+        initialValues: { periodInitialValues },
+        validationSchema: Yup.object(periodValidationSchema()),
         onSubmit: async (values, { setSubmitting }) => {
             try {
-                const response = await guardarPerido(values);
+                const response = await guardarPerido(values, auth?.token);
                 console.log(response);
                 if (response) {
                     toast.success("Guardado");
@@ -50,15 +36,15 @@ export default function FormularioPeriodo({ reset, onClose }) {
                     onClose();
                     setSubmitting(false);
                 }
-
             } catch (error) {
                 console.error(error)
             }
         },
     });
 
+    const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-    const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+    if (!auth) return <Loader />
 
     return (
         <FormikProvider value={formik} sx>
@@ -74,15 +60,16 @@ export default function FormularioPeriodo({ reset, onClose }) {
                         helperText={touched.anio && errors.anio}
                     />
 
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns} locale={es}>
                         <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }}>
                             <DatePicker
                                 inputFormat="yyyy/MM/dd"
                                 mask="____/__/__"
                                 label="Fecha de Inicio"
-
+                                openTo="year"
+                                views={['year', 'month', 'day']}
                                 {...getFieldProps('fechaInicio')}
-                                value={formik.values.fechaInicio}
+                                
 
                                 onChange={(newValue) => {
                                     formik.setFieldValue("fechaInicio", newValue);
@@ -100,6 +87,8 @@ export default function FormularioPeriodo({ reset, onClose }) {
                                 mask="____/__/__"
                                 label="Fecha de Fin"
                                 minDate={formik.values.fechaInicio}
+                                openTo="year"
+                                views={['year', 'month', 'day']}
                                 {...getFieldProps('fechaInicio')}
                                 value={formik.values.fechaFin}
                                 onChange={(newValue) => {

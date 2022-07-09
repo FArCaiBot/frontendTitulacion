@@ -3,36 +3,45 @@ import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
-import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormControlLabel } from '@mui/material';
+import { Link, Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
+import { toast } from 'react-hot-toast';
 import Iconify from '../../../components/Iconify';
-import { getMeAPI, loginAPI } from '../../../api/usuarioAPI';
+import { loginAPI } from '../../../api/usuarioAPI';
+import { useAuth } from "../../../hooks/useAuth";
+import { loginInitialValues, loginValidationSchema } from '../../../utils/formValidation';
+
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
+  const { auth, login } = useAuth();
+
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('El correo electrónico no cumple el formato').required('Email es requerido'),
-    password: Yup.string().required('Password es requerido'),
-  });
 
   const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validationSchema: LoginSchema,
-    onSubmit:async () => {
-      /* navigate('/dashboard', { replace: true }); */
-      const result= await loginAPI(values);
-      console.log(result.tokenAcceso);
-      const user=await getMeAPI(result.tokenAcceso);
-      console.log(user)
+    initialValues: { loginInitialValues },
+    validationSchema:  Yup.object(loginValidationSchema()) ,
+    onSubmit: async (values, actions) => {
+      setLoading(true);
+      try {
+        const result = await loginAPI(values);
+        login(result.tokenAcceso);
+
+        
+        actions.resetForm();
+        if(auth) navigate("/");
+
+      } catch (error) {
+        toast.error("Credenciales incorrectas")
+      }
+      setLoading(false);
+
     },
   });
 
@@ -48,7 +57,7 @@ export default function LoginForm() {
         <Stack spacing={3}>
           <TextField
             fullWidth
-            autoComplete="username"
+            autoComplete="email"
             type="email"
             label="Email address"
             {...getFieldProps('email')}
@@ -83,7 +92,7 @@ export default function LoginForm() {
           </Link>
         </Stack>
 
-        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={loading} loadingIndicator="Loading...">
           Login
         </LoadingButton>
       </Form>

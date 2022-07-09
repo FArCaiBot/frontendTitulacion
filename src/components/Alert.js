@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -8,6 +9,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
+ResponsiveDialog.propTypes={
+  title: PropTypes.string,
+  body: PropTypes.string,
+  onClose: PropTypes.func,
+  onClickAction: PropTypes.func,
+  isOpen:PropTypes.bool
+}
+
+
 export default function ResponsiveDialog({
   title,
   body,
@@ -17,8 +27,6 @@ export default function ResponsiveDialog({
 }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
-  
 
   const handleClose = onClose;
 

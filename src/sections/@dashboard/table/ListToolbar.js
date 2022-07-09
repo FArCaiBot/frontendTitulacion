@@ -32,15 +32,16 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 UserListToolbar.propTypes = {
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
+  criteria: PropTypes.string
 };
 
-export default function UserListToolbar({ filterName, onFilterName }) {
+export default function UserListToolbar({ filterName, onFilterName, criteria }) {
   return (
     <RootStyle>
       <SearchStyle
           value={filterName}
           onChange={onFilterName}
-          placeholder="Buscar periodo..."
+          placeholder={`Buscar ${criteria}.....`}
           startAdornment={
             <InputAdornment position="start">
               <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
