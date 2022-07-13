@@ -26,16 +26,15 @@ export default function LoginForm() {
 
   const formik = useFormik({
     initialValues: { loginInitialValues },
-    validationSchema:  Yup.object(loginValidationSchema()) ,
+    validationSchema: Yup.object(loginValidationSchema()),
     onSubmit: async (values, actions) => {
       setLoading(true);
       try {
         const result = await loginAPI(values);
         login(result.tokenAcceso);
 
-        
         actions.resetForm();
-        if(auth) navigate("/");
+        if (auth) navigate("/");
 
       } catch (error) {
         toast.error("Credenciales incorrectas")
@@ -56,6 +55,7 @@ export default function LoginForm() {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextField
+            required
             fullWidth
             autoComplete="email"
             type="email"
@@ -66,6 +66,7 @@ export default function LoginForm() {
           />
 
           <TextField
+            required
             fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}

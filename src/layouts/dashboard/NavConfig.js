@@ -31,34 +31,19 @@ const navConfig = [
   },
   {
     title:'usuarios',
-    path:'/usuarios',
-    icon:getIcon('carbon:user-filled'),
+    path:'/home/usuarios',
+    icon:getIcon('eva:people-fill'),
     children:[
       {
         title:'docentes',
-        path:'/usuarios/docentes'
+        path:'/home/usuarios/docentes'
       },
       {
         title:'estudiantes',
         path:'/usuarios/estudiantes'
       }
     ]
-  },
-  {
-    title: 'login',
-    path: '/login',
-    icon: getIcon('eva:lock-fill'),
-  },
-  {
-    title: 'register',
-    path: '/register',
-    icon: getIcon('eva:person-add-fill'),
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon('eva:alert-triangle-fill'),
-  },
+  }
 ];
 
 export default navConfig;

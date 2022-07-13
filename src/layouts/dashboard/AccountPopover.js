@@ -20,7 +20,7 @@ const MENU_OPTIONS = [
   {
     label: 'Profile',
     icon: 'eva:person-fill',
-    linkTo: '#',
+    linkTo: '/home/perfil',
   },
 ];
 
@@ -84,7 +84,7 @@ export default function AccountPopover({auth,logout}) {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {auth.userData.apellidos}
+          {auth.userData.nombres.split(" ")[0]} {auth.userData.apellidos.split(" ")[0]}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {auth.userData.email}

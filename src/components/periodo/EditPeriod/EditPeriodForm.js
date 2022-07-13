@@ -16,7 +16,7 @@ import { actualizarPeriodo } from '../../../api/periodoAcademicoAPI';
 EditPeriodForm.propTypes = {
     reset: PropTypes.func,
     onClose: PropTypes.func,
-    data: PropTypes.object
+    data: PropTypes.array
 }
 
 export default function EditPeriodForm({ reset, onClose, data }) {

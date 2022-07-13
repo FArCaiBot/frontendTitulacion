@@ -11,6 +11,8 @@ import Estados from './pages/Estados';
 
 import DashboardApp from './pages/DashboardApp';
 import RequireAuth from './components/RequiredAuth';
+import Docentes from './pages/Docentes';
+import Perfil from './pages/Perfil';
 // ----------------------------------------------------------------------
 
 
@@ -22,6 +24,8 @@ export default function Router() {
           <Route path='app' element={<DashboardApp />} />
           <Route path='catalogo/periodo' element={<Periodo />} />
           <Route path='catalogo/estados' element={<Estados />} />
+          <Route path='usuarios/docentes' element={<Docentes/>}/>
+          <Route path='perfil' element={<Perfil/>}/>
         </Route>
       </Route>
 

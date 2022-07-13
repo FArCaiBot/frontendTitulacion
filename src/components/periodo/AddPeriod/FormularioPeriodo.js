@@ -42,12 +42,12 @@ export default function FormularioPeriodo({ reset, onClose, }) {
         },
     });
 
-    const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
+    const {values, errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
 
     if (!auth) return <Loader />
 
     return (
-        <FormikProvider value={formik} sx>
+        <FormikProvider value={formik} >
             <Form autoComplete="off" onSubmit={handleSubmit} >
                 <Stack spacing={2} sx={{ mt: 2 }}>
                     <TextField
@@ -113,7 +113,7 @@ export default function FormularioPeriodo({ reset, onClose, }) {
                         helperText={touched.descripcionPeriodo && errors.descripcionPeriodo}
 
                     />
-                    <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+                    <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting} >
                         Guardar
                     </LoadingButton>
                 </Stack>

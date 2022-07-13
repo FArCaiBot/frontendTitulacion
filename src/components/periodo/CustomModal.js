@@ -45,7 +45,7 @@ export default function CustomModal(
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant='h6' component={'h2'}>
+                    <Typography id="modal-modal-title" variant='h6' component={'h2'} sx={{pb:2}}>
                         {title}
                     </Typography>
                     {children}

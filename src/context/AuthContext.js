@@ -31,7 +31,14 @@ export function AuthProvider({ children }) {
 
       if (token) {
         const userData = await getMe(token);
-        setAuth({ token, userData });
+        if (userData.status!==500) {
+
+          setAuth({ token, userData });
+        } else {
+          setAuth(null);
+          logout();
+        }
+
       } else {
         setAuth(null);
       }
@@ -52,7 +59,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  
+
   const valueContext = {
     auth,
     login,

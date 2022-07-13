@@ -47,7 +47,7 @@ export default function DashboardLayout() {
        auth={auth}
        logout={logout}
        onOpenSidebar={() => setOpen(true)} />
-      <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+      <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)}  auth={auth}/>
       <MainStyle>
         <Toaster />
         <Outlet />

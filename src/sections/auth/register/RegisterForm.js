@@ -23,14 +23,16 @@ export default function RegisterForm() {
     initialValues: { registerInitialValues },
     validationSchema: Yup.object(registerValidationSchema()),
     onSubmit: async (values, actions) => {
-      console.log(values);
       try {
         const response = await registerAPI(values);
-        console.log(response);
-        if (response) {
+        if (response.status===201) {
           actions.resetForm();
           toast.success("Registrado con éxito");
+          navigate("/login");
           actions.setSubmitting(false);
+        }else{
+          const result= await response.json()
+          toast.error(result.mensaje)
         }
       } catch (error) {
         console.error(error);
@@ -80,7 +82,7 @@ export default function RegisterForm() {
 
           <TextField
             fullWidth
-            autoComplete="username"
+            autoComplete="email"
             type="email"
             label="Email address"
             {...getFieldProps('email')}
