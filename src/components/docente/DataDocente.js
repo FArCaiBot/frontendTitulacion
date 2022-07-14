@@ -1,5 +1,5 @@
 import { Card, Stack, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow } from "@mui/material";
-import { filter } from "lodash";
+import { filter, size } from "lodash";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { UserListHead, UserListToolbar, UserMoreMenu } from "../../sections/@dashboard/table";
@@ -47,10 +47,10 @@ function applySortFilter(array, comparator, query) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-DataDocente.propTypes={
+DataDocente.propTypes = {
     data: PropTypes.array,
     delDocente: PropTypes.func,
-    reset:PropTypes.func
+    reset: PropTypes.func
 }
 
 
@@ -120,24 +120,21 @@ export default function DataDocente({ data = [], delDocente, reset }) {
                                         <TableCell align="left">{email}</TableCell>
                                         <TableCell align="left">
                                             <Stack spacing={1} direction={{ xs: 'row' }}>
-                                                {roles.map((rol) => {
-                                                    return (
-                                                        <>
-                                                            <Label variant="ghost"
-                                                                color={
-                                                                    (rol === 'ROLE_ADMIN' && 'error') || (rol === 'ROLE_MIEMBRO' && 'secondary') || 'success'}>
-                                                                {rol.replace("ROLE_", "")}
-                                                            </Label>
-                                                        </>
-                                                    )
-                                                })}
+                                                {roles.map((rol) =>
+                                                    <Label key={rol.index} variant="ghost"
+                                                        color={
+                                                            (rol === 'ROLE_ADMIN' && 'error') || (rol === 'ROLE_MIEMBRO' && 'secondary') || 'success'}>
+                                                        {rol.replace("ROLE_", "")}
+                                                    </Label>
+
+                                                )}
                                             </Stack>
                                         </TableCell>
                                         <TableCell align="left">
                                             <UserMoreMenu
                                                 title={"docente"}
                                                 body={`¿Está seguro que quiere eliminar al docente "${nombres} ${apellidos}"?. Le recordamos que esta acción no se puede deshacer`}
-                                                onDelAction={()=>delDocente(idUsuario)}
+                                                onDelAction={() => delDocente(idUsuario)}
                                             />
 
                                         </TableCell>
@@ -150,7 +147,7 @@ export default function DataDocente({ data = [], delDocente, reset }) {
                                 </TableRow>
                             )}
                         </TableBody>
-                        {isUserNotFound && (
+                        {isUserNotFound && size(data)>0 && (
                             <TableBody>
                                 <TableRow>
                                     <TableCell align="center" colSpan={6} sx={{ py: 3 }}>

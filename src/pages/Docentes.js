@@ -35,6 +35,8 @@ export default function Docentes() {
             console.log(error)
         }
     }
+
+
     return (
         <Page title="Docentes">
             <Container>
