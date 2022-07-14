@@ -13,19 +13,21 @@ import DashboardApp from './pages/DashboardApp';
 import RequireAuth from './components/RequiredAuth';
 import Docentes from './pages/Docentes';
 import Perfil from './pages/Perfil';
+import Proceso from './pages/Proceso';
 // ----------------------------------------------------------------------
 
 
 export default function Router() {
   return (
     <Routes>
-      <Route element={<RequireAuth/>}>
+      <Route element={<RequireAuth />}>
         <Route path='/home' element={<DashboardLayout />}>
           <Route path='app' element={<DashboardApp />} />
           <Route path='catalogo/periodo' element={<Periodo />} />
           <Route path='catalogo/estados' element={<Estados />} />
-          <Route path='usuarios/docentes' element={<Docentes/>}/>
-          <Route path='perfil' element={<Perfil/>}/>
+          <Route path='catalogo/proceso' element={<Proceso />} />
+          <Route path='usuarios/docentes' element={<Docentes />} />
+          <Route path='perfil' element={<Perfil />} />
         </Route>
       </Route>
 

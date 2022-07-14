@@ -57,12 +57,12 @@ export function registerValidationSchema() {
             .min(3, 'Too Short!')
             .max(50, 'Too Long!')
             .required('Campo requerido')
-            .matches(onlyLetters, "Solo se permiten letras"),
+            .matches(string, "Solo se permiten letras"),
         apellidos: Yup.string()
             .min(2, 'Too Short!')
             .max(50, 'Too Long!')
             .required('Last name required')
-            .matches(onlyLetters, "Solo se permiten letras"),
+            .matches(string, "Solo se permiten letras"),
         email: Yup.string()
             .email('Formato no valido')
             .required('Campo requerido'),
