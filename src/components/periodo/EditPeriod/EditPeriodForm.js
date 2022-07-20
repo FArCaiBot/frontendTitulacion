@@ -25,6 +25,7 @@ export default function EditPeriodForm({ reset, onClose, data }) {
 
     const formik = useFormik({
         initialValues: {
+            id: data.id,
             anio:  data.anio ,
             fechaInicio: new Date(data.fechaInicio),
             fechaFin: new Date(data.fechaFin),

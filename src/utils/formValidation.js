@@ -77,18 +77,18 @@ export function registerValidationSchema() {
 }
 
 
-export function docenteInitialValues(){
+export function docenteInitialValues() {
 
     return {
         cedulaUsuario: '',
         nombres: '',
         apellidos: '',
         email: '',
-        roles:[]        
+        roles: []
     }
 }
 
-export function docenteValidationSchema(){
+export function docenteValidationSchema() {
     return {
         cedulaUsuario: Yup.string().strict(true)
             .min(10, "Debe contener 10 caracteres")
@@ -108,8 +108,8 @@ export function docenteValidationSchema(){
             .email('Formato no valido')
             .required('Campo requerido'),
         roles: Yup.array()
-        .required("Seleccionar un rol")
-        .min(1,"Seleccionar al menos 1 rol"),
+            .required("Seleccionar un rol")
+            .min(1, "Seleccionar al menos 1 rol"),
     }
 }
 
@@ -117,6 +117,7 @@ export function docenteValidationSchema(){
 
 export function periodInitialValues() {
     return {
+        id: "",
         anio: '',
         fechaInicio: null,
         fechaFin: null,
@@ -124,8 +125,11 @@ export function periodInitialValues() {
     }
 }
 
-export function periodValidationSchema(){
+export function periodValidationSchema() {
     return {
+        id: Yup
+            .string()
+            .required("El campo es obligatorio"),
         anio: Yup
             .number()
             .required("El campo es obligatorio")
@@ -147,15 +151,15 @@ export function periodValidationSchema(){
     }
 }
 
-export function changePasswordInitialValues(){
+export function changePasswordInitialValues() {
     return {
-        password:'',
-        confirmPassword:''
+        password: '',
+        confirmPassword: ''
     }
 
 }
 
-export function changePasswordValidationSchema(){
+export function changePasswordValidationSchema() {
     return {
         password: Yup.string()
             .strict(true)
@@ -164,5 +168,48 @@ export function changePasswordValidationSchema(){
         confirmPassword: Yup.string()
             .oneOf([Yup.ref("password")], "Las contraseñas no coinciden")
             .required("Confirma tu contraseña por favor!"),
+    }
+}
+
+/* estado anteproyecto values */
+
+export function estadoAnteproyInitialValues() {
+    return {
+        descripcion: '',
+        observaciones: ''
+    }
+}
+
+export function estadoAnteproyValidationSchema() {
+    return {
+        descripcion: Yup.string()
+        .strict(true)
+        .required('La descripción es obligatoria'),
+        observaciones: Yup.string()
+        .nullable()
+        .max(150,"La observación no debe tener más de 150 caracteres.")
+    }
+}
+
+/* linea de investigacion */
+export function lineaInvestigacionInitialValues() {
+    return {
+        codigo: '',
+        lineaInvestigacion: ''
+    }
+}
+
+export function lineaInvestigacionValidationSchema() {
+    return {
+        codigo: Yup.string()
+        .strict(true)
+        .required('La descripción es obligatoria')
+        .min(1, "El código debe tener al menos un caracter")
+        .max(4, "El códgo debe tener menos de 4 caracteres")
+        .matches(onlyLetters, "Solo se permiten letras"),
+
+        lineaInvestigacion: Yup.string()
+        .required("El campo es obligatorio")
+        .max(100,"La observación no debe tener más de 100 caracteres.")
     }
 }

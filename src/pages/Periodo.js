@@ -43,9 +43,9 @@ export default function Periodo() {
 
   const delPeriodo = async (id) => {
     try {
-      const result = await eliminarPeriodo(id);
+      const result = await eliminarPeriodo(id, auth?.token);
 
-      if (result) {
+      if (result.status===200) {
         toast.success(`Periodo ${id} eliminado`);
         search();
       }

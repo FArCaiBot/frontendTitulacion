@@ -20,12 +20,16 @@ const navConfig = [
       path: '/home/catalogo/periodo'
     },
     {
-      title:'Estados del proyecto',
+      title:'Estados',
       path:'/home/catalogo/estados'
     },
     {
       title:'Procesos y actividades',
       path:'/home/catalogo/proceso'
+    },
+    {
+      title:'Lineas de Investigación',
+      path:'/home/catalogo/lineas'
     }
   ]
   },

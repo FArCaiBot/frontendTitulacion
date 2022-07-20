@@ -32,9 +32,9 @@ export async function guardarDocente(formData, token) {
 }
 
 export async function eliminarDocente(id, token) {
-        const compositeUrl = `${BASE_PATH}/api/docente/${id}`;
+        const compositeUrl = `${BASE_PATH}/api/docente/denied/${id}`;
         const params = {
-            method: "DELETE",
+            method: "PUT",
             headers: {
                 'Content-Type': "application/json",
                 'Authorization': `Bearer ${token}`

@@ -32,7 +32,6 @@ export async function guardarPerido(formData,token) {
 
     const response = await fetch(compositeUrl, params);
     const result = await response.json();
-    console.log(result);
     return result;
 
   } catch (error) {

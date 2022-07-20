@@ -42,7 +42,7 @@ export default function FormularioPeriodo({ reset, onClose, }) {
         },
     });
 
-    const {values, errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
+    const { values, errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
 
     if (!auth) return <Loader />
 
@@ -50,6 +50,14 @@ export default function FormularioPeriodo({ reset, onClose, }) {
         <FormikProvider value={formik} >
             <Form autoComplete="off" onSubmit={handleSubmit} >
                 <Stack spacing={2} sx={{ mt: 2 }}>
+                    <TextField
+                        id="id"
+                        label="ID"
+                        variant="outlined"
+                        {...getFieldProps('id')}
+                        error={Boolean(touched.id && errors.id)}
+                        helperText={touched.id && errors.id}
+                    />
                     <TextField
                         id="anio"
                         label="Año"
@@ -67,9 +75,8 @@ export default function FormularioPeriodo({ reset, onClose, }) {
                                 mask="____/__/__"
                                 label="Fecha de Inicio"
                                 openTo="year"
-                                views={['year', 'month', 'day']}
                                 {...getFieldProps('fechaInicio')}
-                                
+
 
                                 onChange={(newValue) => {
                                     formik.setFieldValue("fechaInicio", newValue);
@@ -88,7 +95,6 @@ export default function FormularioPeriodo({ reset, onClose, }) {
                                 label="Fecha de Fin"
                                 minDate={formik.values.fechaInicio}
                                 openTo="year"
-                                views={['year', 'month', 'day']}
                                 {...getFieldProps('fechaInicio')}
                                 value={formik.values.fechaFin}
                                 onChange={(newValue) => {
