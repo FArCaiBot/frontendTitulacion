@@ -7,15 +7,15 @@ import { LoadingButton } from '@mui/lab';
 import { useAuth } from '../../../../hooks'
 import { estadoAnteproyValidationSchema } from '../../../../utils/formValidation';
 import Loader from '../../../Loader/Loader';
-import { updateEstAnt, updateEstProy } from '../../../../api/estadosAPI';
+import { updateEstAnt } from '../../../../api/estadosAPI';
 
 
-EditEstAntForm.propTypes = {
+EditEstProyForm.propTypes = {
     reset: PropTypes.func,
     onClose: PropTypes.func
 }
 
-export default function EditEstAntForm({ reset, onClose, data }) {
+export default function EditEstProyForm({ reset, onClose, data }) {
     const { auth } = useAuth();
 
     const formik = useFormik({
@@ -28,7 +28,7 @@ export default function EditEstAntForm({ reset, onClose, data }) {
         validationSchema: Yup.object(estadoAnteproyValidationSchema()),
         onSubmit: async (values, actions) => {
             try {
-                const response = await updateEstProy(data.id, values, auth?.token);
+                const response = await updateEstAnt(data.id, values, auth?.token);
                 if (response.status === 200) {
                     actions.resetForm();
                     toast.success("Estado actualizado");

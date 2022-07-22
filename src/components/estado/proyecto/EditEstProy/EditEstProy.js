@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import Iconify from "../../../Iconify";
 import CustomModal from "../../../periodo/CustomModal";
-import EditEstAntForm from "./EditEstAntForm";
+import EditEstAntForm from "../../anteproyecto/EditEstAnteproy/EditEstAntForm";
+/* import EditEstAntForm from "./EditEstAntForm"; */
 
-EditarEstAnt.propTypes = {
+EditarEstProy.propTypes = {
     estado: PropTypes.object,
     reset: PropTypes.func
 }
 
-export default function EditarEstAnt({ estado, reset }) {
+export default function EditarEstProy({ estado, reset }) {
     const [open, setOpen] = useState(false);
     return (
         <>
@@ -21,7 +22,7 @@ export default function EditarEstAnt({ estado, reset }) {
                 <ListItemText primary="Editar" primaryTypographyProps={{ variant: 'body2' }} />
             </ MenuItem>
             <CustomModal
-                title="Editar estado anteproyecto"
+                title="Editar estado proyecto"
                 isOpen={open}
                 onClose={()=>setOpen(false)}
             > 
@@ -30,6 +31,7 @@ export default function EditarEstAnt({ estado, reset }) {
             onClose={()=>setOpen(false)}
             reset={()=>reset()}
             />
+            
             </CustomModal>
         </>
     )

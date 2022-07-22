@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { filter } from "lodash";
 import { useState } from "react";
-import { Table, TableContainer, Card, Container, TableBody, TableRow, TableCell } from "@mui/material";
+import { Table, TableContainer, Card, TableBody, TableRow, TableCell } from "@mui/material";
 import Scrollbar from "../Scrollbar";
 import { UserListHead, UserMoreMenu } from "../../sections/@dashboard/table";
 import EditarLinea from "./EditLinea/EditLinea";
@@ -37,21 +37,17 @@ function applySortFilter(array, comparator, query) {
         if (order !== 0) return order;
         return a[1] - b[1];
     });
-    if (query) {
-        return filter(array, (_user) => _user.descripcionPeriodo.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-    }
+    
     return stabilizedThis.map((el) => el[0]);
 }
 
 DataLinea.propTypes = {
-    data: PropTypes.object,
+    data: PropTypes.array,
     delLinea: PropTypes.func,
     reset: PropTypes.func
 }
 
 export default function DataLinea({ data = [], delLinea, reset }) {
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const [filterName, setFilterName] = useState('');
 
@@ -60,9 +56,7 @@ export default function DataLinea({ data = [], delLinea, reset }) {
     const [orderBy, setOrderBy] = useState('codigo');
 
 
-    const handleFilterByName = (event) => {
-        setFilterName(event.target.value);
-    };
+  
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -70,19 +64,10 @@ export default function DataLinea({ data = [], delLinea, reset }) {
         setOrderBy(property);
     };
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
 
     const filteredUsers = applySortFilter(data, getComparator(order, orderBy), filterName);
 
-    const isUserNotFound = filteredUsers.length === 0;
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+   
 
     return (
             <Card>
@@ -98,8 +83,9 @@ export default function DataLinea({ data = [], delLinea, reset }) {
                             />
                             {/* cuerpo */}
                              <TableBody>
-                            {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                            {filteredUsers.slice().map((row) => {
                                 const { codigo, lineaInvestigacion} = row;
+                                
 
                                 return (
                                     <TableRow

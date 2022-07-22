@@ -110,6 +110,21 @@ export async function eliminarEstProy(id, token){
     }
 }
 
+export async function updateEstProy(id, formData, token){
+  const compositeUrl=`${BASE_PATH}/api/estado/proyecto/${id}`;
+  const params={
+    method:"PUT",
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':`Bearer ${token}`
+    },
+    body:JSON.stringify(formData),
+  };
+
+  const response=await fetch(compositeUrl,params);
+  return response;
+}
+
 /* estados estudiante */
 export async function getEstEstudiante(token){
   try{
@@ -156,4 +171,19 @@ export async function eliminarEstEstudiante(id, token){
     }catch(error){
       return null;
     }
+}
+
+export async function updateEstEstudiante(id, formData, token){
+  const compositeUrl=`${BASE_PATH}/api/estado/estudiante/${id}`;
+  const params={
+    method:"PUT",
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':`Bearer ${token}`
+    },
+    body:JSON.stringify(formData),
+  };
+
+  const response=await fetch(compositeUrl,params);
+  return response;
 }

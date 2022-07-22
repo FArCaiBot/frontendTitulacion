@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Table, TableContainer, Card, TableBody, TableRow, TableCell } from "@mui/material";
 import Scrollbar from "../../Scrollbar";
 import { UserListHead, UserMoreMenu } from "../../../sections/@dashboard/table";
+import EditarEstEstudiante from "./EditEstEstudiante/EditEstEstudiante";
 
 const TABLE_HEAD = [
     { id: 'id', label: 'ID', alignRight: false },
@@ -43,7 +44,7 @@ function applySortFilter(array, comparator, query) {
 }
 
 DataEstEstudiante.propTypes = {
-    data: PropTypes.object,
+    data: PropTypes.array,
     delEstado: PropTypes.func,
     reset: PropTypes.func
 }
@@ -102,11 +103,10 @@ export default function DataEstEstudiante({ data = [], delEstado, reset }) {
                                                 body={`¿Está seguro que quiere eliminar el estado "${descripcion}"?. Le recordamos que esta acción no se puede deshacer`}
                                                 onDelAction={() => delEstado(id)}
                                             >
-                                                {/* <EditarEstAnt
+                                                <EditarEstEstudiante
                                                 estado={row}                                                
                                                 reset={reset}
-                                                /> */}
-                                                Hola
+                                                />
                                             </UserMoreMenu>
                                             
                                         </TableCell>

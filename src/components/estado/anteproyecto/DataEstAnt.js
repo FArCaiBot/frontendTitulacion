@@ -44,7 +44,7 @@ function applySortFilter(array, comparator, query) {
 }
 
 DataEstAnt.propTypes = {
-    data: PropTypes.object,
+    data: PropTypes.array,
     delEstado: PropTypes.func,
     reset: PropTypes.func
 }
